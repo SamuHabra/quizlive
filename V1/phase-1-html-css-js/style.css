@@ -1,0 +1,48 @@
+/* ============================================
+   PHASE 1 — Styles spécifiques
+   Surcharges et ajouts au design system
+   ============================================ */
+
+/* Écrans (sections affichées/masquées par JS) */
+.screen {
+  /* JS toggle : display:none / display:block */
+}
+
+/* Timer animation (contrôlée par JS en phase 1) */
+/* La piste SVG fait un cercle de circumférence ≈ 170px */
+/* JS mettra à jour stroke-dashoffset de 0 (plein) à 170 (vide) */
+
+/* Grille admin responsive */
+@media (max-width: 640px) {
+  .grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Barre de progression quiz (% avancement questions) */
+#progress-bar {
+  /* JS met à jour width: en % selon questionIndex / total */
+}
+
+/* État actif d'une réponse sélectionnée (avant correction) */
+.answer-btn.selected {
+  border-color: var(--color-primary);
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+}
+
+/* Animation d'entrée des écrans */
+.screen-enter {
+  animation: fadeIn 0.2s ease both;
+}
+
+/* Joueur connecté — indicateur en ligne */
+.player-online::before {
+  content: '';
+  display: inline-block;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--color-success);
+  margin-right: 0.375rem;
+  vertical-align: middle;
+}

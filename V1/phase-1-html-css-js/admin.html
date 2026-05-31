@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QuizLive — Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../design-system.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <nav class="navbar">
+    <span class="navbar__logo">Quiz<span>Live</span>
+      <span style="color: var(--color-text-muted); font-size: 0.875rem; font-weight: 400;">Admin</span>
+    </span>
+    <span class="badge badge--amber">Phase 1</span>
+  </nav>
+
+  <div class="page">
+    <main class="page__main">
+      <div class="container container--wide">
+
+        <!-- ==========================================
+             ÉCRAN A0 — CONNEXION ADMIN
+             ========================================== -->
+        <section id="admin-screen-login" class="screen anim-fade">
+          <div class="container" style="max-width: 400px; padding-top: 3rem;">
+            <div class="stack stack--lg">
+              <div class="text-center">
+                <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">🔐</div>
+                <h2>Espace Admin</h2>
+                <p>Connecte-toi pour gérer tes quiz.</p>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="admin-password">Mot de passe</label>
+                <input
+                  id="admin-password"
+                  class="input input--lg"
+                  type="password"
+                  placeholder="Mot de passe admin"
+                />
+                <!-- Erreur mot de passe incorrect -->
+                <span id="login-error" style="display: none; font-size: 0.8125rem; color: var(--color-danger); margin-top: 0.25rem;">
+                  ⚠ Mot de passe incorrect.
+                </span>
+              </div>
+
+              <button class="btn btn--primary btn--full btn--lg" id="btn-admin-login">
+                Se connecter →
+              </button>
+
+              <p class="text-center text-muted" style="font-size: 0.8125rem;">
+                Mot de passe par défaut : <code style="background: var(--color-bg); padding: 2px 6px; border-radius: 4px; border: 1px solid var(--color-border);">admin</code>
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==========================================
+             ÉCRAN A1 — DASHBOARD
+             ========================================== -->
+        <section id="admin-screen-dashboard" class="screen" style="display: none;">
+          <div class="stack stack--lg">
+
+            <div class="between">
+              <div>
+                <h2>Dashboard</h2>
+                <p>Gère tes quiz et sessions.</p>
+              </div>
+              <div class="cluster cluster--sm">
+                <button class="btn btn--primary btn--sm" id="btn-create-quiz">+ Nouveau quiz</button>
+                <button class="btn btn--ghost btn--sm" id="btn-logout" title="Déconnexion">↩</button>
+              </div>
+            </div>
+
+            <!-- Stats rapides -->
+            <div class="grid-4">
+              <div class="card card--flat" style="background: var(--color-primary-light); border-color: #BFDBFE;">
+                <small>Quiz créés</small>
+                <p class="fw-700" style="font-size: 1.5rem; color: var(--color-primary); margin-top: 0.25rem;">3</p>
+              </div>
+              <div class="card card--flat" style="background: var(--color-success-light); border-color: #BBF7D0;">
+                <small>Joueurs total</small>
+                <p class="fw-700" style="font-size: 1.5rem; color: var(--color-success); margin-top: 0.25rem;">12</p>
+              </div>
+              <div class="card card--flat" style="background: #FFFBEB; border-color: #FDE68A;">
+                <small>Sessions lancées</small>
+                <p class="fw-700" style="font-size: 1.5rem; color: var(--color-warning); margin-top: 0.25rem;">7</p>
+              </div>
+              <div class="card card--flat" style="background: #F5F3FF; border-color: #DDD6FE;">
+                <small>Questions posées</small>
+                <p class="fw-700" style="font-size: 1.5rem; color: #6D28D9; margin-top: 0.25rem;">35</p>
+              </div>
+            </div>
+
+            <!-- Liste quiz -->
+            <div>
+              <h3 style="margin-bottom: 0.75rem;">Mes quiz</h3>
+              <div class="stack stack--sm">
+
+                <div class="card between" style="gap: 1rem;">
+                  <div style="flex: 1;">
+                    <p class="fw-500" style="color: var(--color-text-primary);">Introduction au HTML</p>
+                    <small>5 questions · créé hier</small>
+                  </div>
+                  <div class="cluster cluster--sm">
+                    <span class="badge badge--green">Prêt</span>
+                    <button class="btn btn--ghost btn--sm btn-preview-quiz">👁 Aperçu</button>
+                    <button class="btn btn--ghost btn--sm btn-edit-quiz">✏️ Éditer</button>
+                    <button class="btn btn--primary btn--sm btn-launch-quiz">▶ Lancer</button>
+                  </div>
+                </div>
+
+                <div class="card between" style="gap: 1rem;">
+                  <div style="flex: 1;">
+                    <p class="fw-500" style="color: var(--color-text-primary);">CSS Flexbox</p>
+                    <small>4 questions · créé il y a 3 jours</small>
+                  </div>
+                  <div class="cluster cluster--sm">
+                    <span class="badge badge--green">Prêt</span>
+                    <button class="btn btn--ghost btn--sm btn-preview-quiz">👁 Aperçu</button>
+                    <button class="btn btn--ghost btn--sm btn-edit-quiz">✏️ Éditer</button>
+                    <button class="btn btn--primary btn--sm btn-launch-quiz">▶ Lancer</button>
+                  </div>
+                </div>
+
+                <div class="card between" style="gap: 1rem;">
+                  <div style="flex: 1;">
+                    <p class="fw-500" style="color: var(--color-text-primary);">JavaScript Bases</p>
+                    <small>6 questions · brouillon</small>
+                  </div>
+                  <div class="cluster cluster--sm">
+                    <span class="badge badge--amber">Brouillon</span>
+                    <button class="btn btn--ghost btn--sm btn-edit-quiz">✏️ Éditer</button>
+                    <button class="btn btn--danger btn--sm btn-delete-quiz">🗑</button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==========================================
+             ÉCRAN A2 — CRÉER / ÉDITER UN QUIZ
+             ========================================== -->
+        <section id="admin-screen-create" class="screen" style="display: none;">
+          <div class="stack stack--lg">
+
+            <!-- Header -->
+            <div class="between">
+              <div>
+                <h2 id="create-title">Nouveau quiz</h2>
+                <p>Remplis les informations du quiz.</p>
+              </div>
+              <button class="btn btn--ghost btn--sm" id="btn-back-to-dashboard">← Retour</button>
+            </div>
+
+            <!-- Infos générales -->
+            <div class="card">
+              <h3 style="margin-bottom: 1rem;">Informations générales</h3>
+              <div class="stack stack--md">
+                <div class="form-group">
+                  <label class="form-label" for="quiz-title">Titre du quiz</label>
+                  <input id="quiz-title" class="input" type="text" placeholder="ex: Introduction au HTML" />
+                  <span id="quiz-title-error" style="display: none; font-size: 0.8125rem; color: var(--color-danger);">⚠ Le titre est obligatoire.</span>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="quiz-desc">Description <span class="text-muted">(optionnel)</span></label>
+                  <input id="quiz-desc" class="input" type="text" placeholder="ex: Quiz sur les bases du HTML pour débutants" />
+                </div>
+                <div class="grid-2">
+                  <div class="form-group">
+                    <label class="form-label" for="quiz-timer">Temps par question</label>
+                    <select id="quiz-timer" class="input">
+                      <option value="15">15 secondes</option>
+                      <option value="20">20 secondes</option>
+                      <option value="30" selected>30 secondes</option>
+                      <option value="45">45 secondes</option>
+                      <option value="60">60 secondes</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="quiz-points">Points par bonne réponse</label>
+                    <select id="quiz-points" class="input">
+                      <option value="100" selected>100 points</option>
+                      <option value="200">200 points</option>
+                      <option value="500">500 points</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Questions existantes -->
+            <div>
+              <div class="between" style="margin-bottom: 0.75rem;">
+                <h3>Questions <span class="badge badge--gray" id="question-count">3</span></h3>
+                <button class="btn btn--secondary btn--sm" id="btn-add-question">+ Ajouter une question</button>
+              </div>
+
+              <div class="stack stack--sm" id="questions-list">
+
+                <!-- Question 1 -->
+                <div class="card" style="gap: 0;">
+                  <div class="between" style="margin-bottom: 0.75rem;">
+                    <span class="badge badge--blue">Q1</span>
+                    <div class="cluster cluster--sm">
+                      <button class="btn btn--ghost btn--sm btn-edit-question">✏️ Modifier</button>
+                      <button class="btn btn--danger btn--sm btn-delete-question">🗑</button>
+                    </div>
+                  </div>
+                  <p class="fw-500" style="margin-bottom: 0.5rem;">Quelle balise HTML est utilisée pour les titres de niveau 1 ?</p>
+                  <div class="grid-2" style="gap: 0.5rem;">
+                    <span class="badge badge--green" style="justify-content: flex-start;">✓ &lt;h1&gt;</span>
+                    <span class="badge badge--gray" style="justify-content: flex-start;">&lt;title&gt;</span>
+                    <span class="badge badge--gray" style="justify-content: flex-start;">&lt;header&gt;</span>
+                    <span class="badge badge--gray" style="justify-content: flex-start;">&lt;heading&gt;</span>
+                  </div>
+                </div>
+
+                <!-- Question 2 -->
+                <div class="card">
+                  <div class="between" style="margin-bottom: 0.75rem;">
+                    <span class="badge badge--blue">Q2</span>
+                    <div class="cluster cluster--sm">
+                      <button class="btn btn--ghost btn--sm btn-edit-question">✏️ Modifier</button>
+                      <button class="btn btn--danger btn--sm btn-delete-question">🗑</button>
+                    </div>
+                  </div>
+                  <p class="fw-500" style="margin-bottom: 0.5rem;">Quelle balise crée un lien hypertexte ?</p>
+                  <div class="grid-2" style="gap: 0.5rem;">
+                    <span class="badge badge--green" style="justify-content: flex-start;">✓ &lt;a&gt;</span>
+                    <span class="badge badge--gray" style="justify-content: flex-start;">&lt;link&gt;</span>
+                    <span class="badge badge--gray" style="justify-content: flex-start;">&lt;href&gt;</span>
+                    <span class="badge badge--gray" style="justify-content: flex-start;">&lt;url&gt;</span>
+                  </div>
+                </div>
+
+                <!-- Question 3 -->
+                <div class="card">
+                  <div class="between" style="margin-bottom: 0.75rem;">
+                    <span class="badge badge--blue">Q3</span>
+                    <div class="cluster cluster--sm">
+                      <button class="btn btn--ghost btn--sm btn-edit-question">✏️ Modifier</button>
+                      <button class="btn btn--danger btn--sm btn-delete-question">🗑</button>
+                    </div>
+                  </div>
+                  <p class="fw-500" style="margin-bottom: 0.5rem;">Quel attribut définit l'adresse d'un lien ?</p>
+                  <div class="grid-2" style="gap: 0.5rem;">
+                    <span class="badge badge--gray" style="justify-content: flex-start;">src</span>
+                    <span class="badge badge--green" style="justify-content: flex-start;">✓ href</span>
+                    <span class="badge badge--gray" style="justify-content: flex-start;">url</span>
+                    <span class="badge badge--gray" style="justify-content: flex-start;">link</span>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="cluster cluster--md">
+              <button class="btn btn--ghost" style="flex: 1;" id="btn-save-draft">💾 Sauvegarder brouillon</button>
+              <button class="btn btn--primary" style="flex: 1;" id="btn-save-quiz">✅ Sauvegarder</button>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ==========================================
+             ÉCRAN A3 — ÉDITER UNE QUESTION
+             ========================================== -->
+        <section id="admin-screen-edit-question" class="screen" style="display: none;">
+          <div class="stack stack--lg">
+
+            <div class="between">
+              <div>
+                <h2>Modifier la question</h2>
+                <p id="edit-question-subtitle">Question 1 — Introduction au HTML</p>
+              </div>
+              <button class="btn btn--ghost btn--sm" id="btn-back-to-create">← Retour</button>
+            </div>
+
+            <div class="card">
+              <div class="stack stack--md">
+
+                <!-- Texte question -->
+                <div class="form-group">
+                  <label class="form-label" for="question-text-input">Texte de la question</label>
+                  <textarea
+                    id="question-text-input"
+                    class="input"
+                    rows="3"
+                    placeholder="ex: Quelle balise HTML est utilisée pour les titres ?"
+                    style="resize: vertical;"
+                  >Quelle balise HTML est utilisée pour les titres de niveau 1 ?</textarea>
+                  <span id="question-text-error" style="display: none; font-size: 0.8125rem; color: var(--color-danger);">⚠ La question est obligatoire.</span>
+                </div>
+
+                <div class="divider"></div>
+
+                <!-- Réponses -->
+                <p class="fw-500" style="font-size: 0.875rem;">Réponses <span class="text-muted">(coche la bonne réponse)</span></p>
+
+                <div class="stack stack--sm">
+
+                  <!-- Réponse A -->
+                  <div class="card card--flat" style="background: var(--color-success-light); border-color: #BBF7D0;">
+                    <div class="between" style="gap: 0.75rem;">
+                      <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; flex: 0 0 auto;">
+                        <input type="radio" name="correct-answer" value="A" checked style="accent-color: var(--color-success);" />
+                        <span class="badge badge--green">A ✓</span>
+                      </label>
+                      <input class="input" type="text" value="&lt;h1&gt;" style="flex: 1;" />
+                    </div>
+                  </div>
+
+                  <!-- Réponse B -->
+                  <div class="card card--flat">
+                    <div class="between" style="gap: 0.75rem;">
+                      <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; flex: 0 0 auto;">
+                        <input type="radio" name="correct-answer" value="B" style="accent-color: var(--color-success);" />
+                        <span class="badge badge--gray">B</span>
+                      </label>
+                      <input class="input" type="text" value="&lt;title&gt;" style="flex: 1;" />
+                    </div>
+                  </div>
+
+                  <!-- Réponse C -->
+                  <div class="card card--flat">
+                    <div class="between" style="gap: 0.75rem;">
+                      <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; flex: 0 0 auto;">
+                        <input type="radio" name="correct-answer" value="C" style="accent-color: var(--color-success);" />
+                        <span class="badge badge--gray">C</span>
+                      </label>
+                      <input class="input" type="text" value="&lt;header&gt;" style="flex: 1;" />
+                    </div>
+                  </div>
+
+                  <!-- Réponse D -->
+                  <div class="card card--flat">
+                    <div class="between" style="gap: 0.75rem;">
+                      <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; flex: 0 0 auto;">
+                        <input type="radio" name="correct-answer" value="D" style="accent-color: var(--color-success);" />
+                        <span class="badge badge--gray">D</span>
+                      </label>
+                      <input class="input" type="text" value="&lt;heading&gt;" style="flex: 1;" />
+                    </div>
+                  </div>
+
+                </div>
+
+                <!-- Erreur : aucune bonne réponse cochée -->
+                <span id="answers-error" style="display: none; font-size: 0.8125rem; color: var(--color-danger);">⚠ Coche la bonne réponse.</span>
+
+              </div>
+            </div>
+
+            <div class="cluster cluster--md">
+              <button class="btn btn--ghost" style="flex: 1;" id="btn-cancel-edit-question">Annuler</button>
+              <button class="btn btn--primary" style="flex: 1;" id="btn-save-question">✅ Enregistrer la question</button>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ==========================================
+             ÉCRAN A4 — PARAMÈTRES DE SESSION
+             ========================================== -->
+        <section id="admin-screen-settings" class="screen" style="display: none;">
+          <div class="stack stack--lg">
+
+            <div class="between">
+              <div>
+                <h2>Paramètres de session</h2>
+                <p>Configure avant de lancer le quiz.</p>
+              </div>
+              <button class="btn btn--ghost btn--sm" id="btn-back-from-settings">← Retour</button>
+            </div>
+
+            <!-- Quiz sélectionné -->
+            <div class="card" style="background: var(--color-primary-light); border-color: #BFDBFE;">
+              <div class="between">
+                <div>
+                  <p style="font-size: 0.8125rem; color: var(--color-primary); margin-bottom: 0.25rem;">Quiz sélectionné</p>
+                  <p class="fw-500" style="color: var(--color-text-primary);">Introduction au HTML</p>
+                  <small>5 questions</small>
+                </div>
+                <button class="btn btn--ghost btn--sm">Changer</button>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3 style="margin-bottom: 1rem;">Options de la session</h3>
+              <div class="stack stack--md">
+
+                <div class="form-group">
+                  <label class="form-label" for="session-timer">⏱ Temps par question</label>
+                  <select id="session-timer" class="input">
+                    <option value="15">15 secondes (rapide)</option>
+                    <option value="20">20 secondes</option>
+                    <option value="30" selected>30 secondes (normal)</option>
+                    <option value="45">45 secondes (facile)</option>
+                    <option value="60">60 secondes (très facile)</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="session-max-players">👥 Nombre max de joueurs</label>
+                  <select id="session-max-players" class="input">
+                    <option value="10">10 joueurs</option>
+                    <option value="20" selected>20 joueurs</option>
+                    <option value="50">50 joueurs</option>
+                    <option value="0">Illimité</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">📊 Afficher le classement intermédiaire</label>
+                  <div class="cluster cluster--sm" style="margin-top: 0.25rem;">
+                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                      <input type="radio" name="mid-score" value="yes" checked style="accent-color: var(--color-primary);" />
+                      <span style="font-size: 0.875rem;">Oui, entre chaque question</span>
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                      <input type="radio" name="mid-score" value="no" style="accent-color: var(--color-primary);" />
+                      <span style="font-size: 0.875rem;">Non</span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">🔀 Mélanger les questions</label>
+                  <div class="cluster cluster--sm" style="margin-top: 0.25rem;">
+                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                      <input type="radio" name="shuffle" value="yes" style="accent-color: var(--color-primary);" />
+                      <span style="font-size: 0.875rem;">Oui</span>
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                      <input type="radio" name="shuffle" value="no" checked style="accent-color: var(--color-primary);" />
+                      <span style="font-size: 0.875rem;">Non, dans l'ordre</span>
+                    </label>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <button class="btn btn--primary btn--full btn--lg" id="btn-launch-from-settings">
+              ▶ Lancer la session
+            </button>
+
+          </div>
+        </section>
+
+        <!-- ==========================================
+             ÉCRAN A5 — PRÉVISUALISATION DU QUIZ
+             ========================================== -->
+        <section id="admin-screen-preview" class="screen" style="display: none;">
+          <div class="stack stack--lg">
+
+            <div class="between">
+              <div>
+                <h2>Prévisualisation</h2>
+                <p>Vue joueur de «&nbsp;Introduction au HTML&nbsp;»</p>
+              </div>
+              <button class="btn btn--ghost btn--sm" id="btn-back-from-preview">← Retour</button>
+            </div>
+
+            <!-- Indicateur mode aperçu -->
+            <div class="card card--flat" style="background: #FFFBEB; border-color: #FDE68A;">
+              <p style="font-size: 0.875rem; color: var(--color-warning);">
+                👁 Mode aperçu — les réponses ne sont pas envoyées
+              </p>
+            </div>
+
+            <!-- Mini navigation questions -->
+            <div class="between">
+              <span class="badge badge--gray">Question <span id="preview-q-num">1</span> / 3</span>
+              <div class="cluster cluster--sm">
+                <button class="btn btn--ghost btn--sm" id="btn-preview-prev">← Précédente</button>
+                <button class="btn btn--ghost btn--sm" id="btn-preview-next">Suivante →</button>
+              </div>
+            </div>
+
+            <!-- Question (vue joueur) -->
+            <div class="card card--elevated">
+              <h3 style="font-size: 1.125rem; line-height: 1.5;" id="preview-question-text">
+                Quelle balise HTML est utilisée pour les titres de niveau 1 ?
+              </h3>
+            </div>
+
+            <div class="answer-grid">
+              <button class="answer-btn">&lt;h1&gt;</button>
+              <button class="answer-btn">&lt;title&gt;</button>
+              <button class="answer-btn">&lt;header&gt;</button>
+              <button class="answer-btn">&lt;heading&gt;</button>
+            </div>
+
+            <!-- Bonne réponse visible en aperçu -->
+            <div class="card card--flat" style="background: var(--color-success-light); border-color: #BBF7D0;">
+              <p style="font-size: 0.875rem; color: var(--color-success);">
+                ✓ Bonne réponse : <strong>&lt;h1&gt;</strong>
+              </p>
+            </div>
+
+            <div class="cluster cluster--md">
+              <button class="btn btn--ghost" style="flex: 1;" id="btn-edit-from-preview">✏️ Modifier ce quiz</button>
+              <button class="btn btn--primary" style="flex: 1;" id="btn-launch-from-preview">▶ Lancer</button>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ==========================================
+             ÉCRAN A6 — SESSION EN COURS (vue admin)
+             ========================================== -->
+        <section id="admin-screen-live" class="screen" style="display: none;">
+          <div class="stack stack--lg">
+
+            <!-- Header session -->
+            <div class="card" style="background: var(--color-primary); border: none;">
+              <div class="between" style="color: white;">
+                <div>
+                  <p style="color: rgba(255,255,255,0.7); font-size: 0.8125rem; margin-bottom: 0.25rem;">Session en cours</p>
+                  <h3 style="color: white;">Introduction au HTML</h3>
+                </div>
+                <div class="text-center">
+                  <p style="color: white; font-size: 1.75rem; font-weight: 700; line-height: 1;" id="live-player-count">4</p>
+                  <p style="color: rgba(255,255,255,0.7); font-size: 0.75rem;">joueurs</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Contrôles navigation questions -->
+            <div class="between">
+              <span class="badge badge--gray" id="live-question-counter">Question 2 / 5</span>
+              <div class="cluster cluster--sm">
+                <button class="btn btn--ghost btn--sm" id="btn-prev-q">← Précédent</button>
+                <button class="btn btn--primary btn--sm" id="btn-next-q">Suivant →</button>
+              </div>
+            </div>
+
+            <!-- Barre progression -->
+            <div class="progress" style="height: 8px;">
+              <div class="progress__fill" id="live-progress" style="width: 40%;"></div>
+            </div>
+
+            <!-- Question affichée -->
+            <div class="card card--elevated">
+              <small style="color: var(--color-primary); font-weight: 500;">Question en cours</small>
+              <h3 style="margin-top: 0.5rem;">Quelle propriété CSS permet de centrer un élément en flexbox ?</h3>
+            </div>
+
+            <!-- Réponses avec stats en temps réel -->
+            <div class="stack stack--sm" id="admin-answers">
+              <div class="card between" style="background: var(--color-success-light); border-color: #BBF7D0; gap: 1rem;">
+                <span class="fw-500" style="color: var(--color-success);">justify-content: center</span>
+                <div class="cluster cluster--sm">
+                  <div class="progress" style="width: 80px;"><div class="progress__fill progress__fill--success" style="width: 75%;"></div></div>
+                  <span class="badge badge--green">3 / 4</span>
+                </div>
+              </div>
+              <div class="card between" style="gap: 1rem;">
+                <span class="fw-500">align-items: center</span>
+                <div class="cluster cluster--sm">
+                  <div class="progress" style="width: 80px;"><div class="progress__fill" style="width: 25%;"></div></div>
+                  <span class="badge badge--gray">1 / 4</span>
+                </div>
+              </div>
+              <div class="card between" style="gap: 1rem;">
+                <span class="fw-500">margin: auto</span>
+                <div class="cluster cluster--sm">
+                  <div class="progress" style="width: 80px;"><div class="progress__fill" style="width: 0%;"></div></div>
+                  <span class="badge badge--gray">0 / 4</span>
+                </div>
+              </div>
+              <div class="card between" style="gap: 1rem;">
+                <span class="fw-500">text-align: center</span>
+                <div class="cluster cluster--sm">
+                  <div class="progress" style="width: 80px;"><div class="progress__fill" style="width: 0%;"></div></div>
+                  <span class="badge badge--gray">0 / 4</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Joueurs connectés -->
+            <div>
+              <h3 style="margin-bottom: 0.75rem;">
+                Joueurs <span class="badge badge--blue" style="vertical-align: middle; margin-left: 0.25rem;">4 connectés</span>
+              </h3>
+              <div class="grid-2">
+                <div class="card between" style="gap: 0.5rem; padding: 0.75rem 1rem;">
+                  <div class="cluster cluster--sm">
+                    <span class="avatar avatar--sm">A</span>
+                    <span class="fw-500" style="font-size: 0.875rem;">Alice</span>
+                  </div>
+                  <span class="badge badge--green">✓ répondu</span>
+                </div>
+                <div class="card between" style="gap: 0.5rem; padding: 0.75rem 1rem;">
+                  <div class="cluster cluster--sm">
+                    <span class="avatar avatar--sm" style="background: #F3F4F6; color: #6B7280;">B</span>
+                    <span class="fw-500" style="font-size: 0.875rem;">Bob</span>
+                  </div>
+                  <span class="badge badge--green">✓ répondu</span>
+                </div>
+                <div class="card between" style="gap: 0.5rem; padding: 0.75rem 1rem;">
+                  <div class="cluster cluster--sm">
+                    <span class="avatar avatar--sm" style="background: #FFF7ED; color: #C2410C;">C</span>
+                    <span class="fw-500" style="font-size: 0.875rem;">Carlos</span>
+                  </div>
+                  <span class="badge badge--amber">⏳ en attente</span>
+                </div>
+                <div class="card between" style="gap: 0.5rem; padding: 0.75rem 1rem;">
+                  <div class="cluster cluster--sm">
+                    <span class="avatar avatar--sm" style="background: #F5F3FF; color: #6D28D9;">D</span>
+                    <span class="fw-500" style="font-size: 0.875rem;">Diana</span>
+                  </div>
+                  <span class="badge badge--green">✓ répondu</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="divider"></div>
+            <button class="btn btn--danger btn--sm" id="btn-end-session" style="align-self: flex-end;">⬛ Terminer la session</button>
+
+          </div>
+        </section>
+
+        <!-- ==========================================
+             ÉCRAN A7 — CLASSEMENT FINAL (admin)
+             ========================================== -->
+        <section id="admin-screen-results" class="screen" style="display: none;">
+          <div class="stack stack--lg">
+            <div class="text-center">
+              <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🏆</div>
+              <h2>Session terminée</h2>
+              <p>Résultats finaux — Introduction au HTML</p>
+            </div>
+
+            <div class="stack stack--sm">
+              <div class="lb-row lb-row--gold"><span class="lb-rank">🥇</span><span class="avatar avatar--sm">A</span><span class="lb-name">Alice</span><span class="lb-score">420 pts</span></div>
+              <div class="lb-row lb-row--silver"><span class="lb-rank">🥈</span><span class="avatar avatar--sm" style="background: #F3F4F6; color: #6B7280;">B</span><span class="lb-name">Bob</span><span class="lb-score">380 pts</span></div>
+              <div class="lb-row lb-row--bronze"><span class="lb-rank">🥉</span><span class="avatar avatar--sm" style="background: #FFF7ED; color: #C2410C;">C</span><span class="lb-name">Carlos</span><span class="lb-score">310 pts</span></div>
+              <div class="lb-row"><span class="lb-rank">4</span><span class="avatar avatar--sm" style="background: #F5F3FF; color: #6D28D9;">D</span><span class="lb-name">Diana</span><span class="lb-score">270 pts</span></div>
+            </div>
+
+            <!-- Stats rapides post-session -->
+            <div class="grid-2">
+              <div class="card card--flat" style="background: var(--color-primary-light); border-color: #BFDBFE; text-align: center;">
+                <small>Taux de bonne réponse</small>
+                <p class="fw-700" style="font-size: 1.5rem; color: var(--color-primary); margin-top: 0.25rem;">72%</p>
+              </div>
+              <div class="card card--flat" style="background: var(--color-success-light); border-color: #BBF7D0; text-align: center;">
+                <small>Temps moyen / question</small>
+                <p class="fw-700" style="font-size: 1.5rem; color: var(--color-success); margin-top: 0.25rem;">14s</p>
+              </div>
+            </div>
+
+            <div class="cluster cluster--md">
+              <button class="btn btn--primary" style="flex: 1;" id="btn-back-to-dash-from-results">↩ Dashboard</button>
+              <button class="btn btn--ghost" style="flex: 1;">📋 Exporter</button>
+            </div>
+          </div>
+        </section>
+
+      </div><!-- /container -->
+    </main>
+  </div>
+
+  <!--
+    PHASE 1 — JS à écrire :
+    Transitions entre écrans (showScreen) :
+    - A0 Login     → btn-admin-login       → A1 Dashboard
+    - A1 Dashboard → btn-create-quiz       → A2 Créer quiz
+    - A1 Dashboard → btn-edit-quiz         → A2 Éditer quiz (prérempli)
+    - A1 Dashboard → btn-preview-quiz      → A5 Prévisualisation
+    - A1 Dashboard → btn-launch-quiz       → A4 Paramètres session
+    - A2 Créer     → btn-add-question      → A3 Éditer question (nouveau)
+    - A2 Créer     → btn-edit-question     → A3 Éditer question (existant)
+    - A2 Créer     → btn-back-to-dashboard → A1 Dashboard
+    - A2 Créer     → btn-save-quiz         → A1 Dashboard
+    - A3 Éditer Q  → btn-save-question     → A2 Créer quiz
+    - A3 Éditer Q  → btn-back-to-create    → A2 Créer quiz
+    - A4 Paramètres→ btn-launch-from-settings → A6 Session live
+    - A5 Preview   → btn-launch-from-preview  → A4 Paramètres session
+    - A5 Preview   → btn-edit-from-preview    → A2 Créer quiz
+    - A6 Live      → btn-next-q / btn-prev-q  → (même écran, question change)
+    - A6 Live      → btn-end-session          → A7 Résultats
+    - A7 Résultats → btn-back-to-dash-from-results → A1 Dashboard
+  -->
+</body>
+</html>

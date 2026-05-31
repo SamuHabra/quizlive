@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QuizLive — Joueur</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../design-system.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <nav class="navbar">
+    <span class="navbar__logo">Quiz<span>Live</span></span>
+    <span class="badge badge--blue">Phase 1</span>
+  </nav>
+
+  <div class="page">
+    <main class="page__main">
+      <div class="container">
+
+        <!-- ==========================================
+             ÉCRAN 1 — ACCUEIL : entrer pseudo
+             ========================================== -->
+        <section id="screen-home" class="screen anim-fade">
+          <div class="stack stack--lg text-center" style="padding-top: 2rem;">
+            <div>
+              <div class="avatar avatar--lg center" style="margin: 0 auto 1rem;">🎮</div>
+              <h1>Bienvenue !</h1>
+              <p class="mt-1">Entre ton pseudo pour rejoindre le quiz.</p>
+            </div>
+
+            <div class="form-group" style="text-align: left;">
+              <label class="form-label" for="pseudo-input">Ton pseudo</label>
+              <input
+                id="pseudo-input"
+                class="input input--lg"
+                type="text"
+                placeholder="ex: SuperJoueur42"
+                maxlength="20"
+              />
+              <!-- État erreur : affiché par JS quand champ vide ou trop court -->
+              <span class="form-hint screen-error" id="pseudo-error" style="display: none; color: var(--color-danger);">
+                ⚠ Pseudo trop court — minimum 3 caractères.
+              </span>
+              <span class="form-hint" id="pseudo-hint">Entre 3 et 20 caractères</span>
+            </div>
+
+            <button class="btn btn--primary btn--full btn--lg" id="btn-join">
+              Rejoindre le quiz →
+            </button>
+          </div>
+        </section>
+
+        <!-- ==========================================
+             ÉCRAN 2 — SALLE D'ATTENTE
+             ========================================== -->
+        <section id="screen-waiting" class="screen" style="display: none;">
+          <div class="stack stack--lg text-center" style="padding-top: 3rem;">
+            <div class="anim-pulse" style="font-size: 3rem;">⏳</div>
+            <div>
+              <h2>En attente...</h2>
+              <p class="mt-1">L'admin va lancer le quiz dans un instant.</p>
+            </div>
+            <div class="card card--flat" style="background: var(--color-primary-light);">
+              <p style="color: var(--color-primary); font-weight: 500;">
+                Connecté en tant que : <strong id="display-pseudo">—</strong>
+              </p>
+            </div>
+            <!-- Joueurs déjà présents -->
+            <div>
+              <p style="font-size: 0.875rem; color: var(--color-text-muted); margin-bottom: 0.75rem;">3 joueurs connectés</p>
+              <div class="cluster cluster--sm" style="justify-content: center;">
+                <div class="avatar avatar--sm">A</div>
+                <div class="avatar avatar--sm" style="background: #F3F4F6; color: #6B7280;">B</div>
+                <div class="avatar avatar--sm" style="background: #FFF7ED; color: #C2410C;">C</div>
+                <div class="avatar avatar--sm anim-pulse" style="background: var(--color-border); color: var(--color-text-muted); font-size: 0.625rem;">+</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==========================================
+             ÉCRAN 3 — QUESTION EN COURS
+             ========================================== -->
+        <section id="screen-question" class="screen" style="display: none;">
+          <div class="stack stack--md">
+
+            <div class="between">
+              <span id="question-counter" class="badge badge--gray">Question 1 / 5</span>
+              <svg class="timer-ring" viewBox="0 0 64 64" aria-label="Timer">
+                <circle class="timer-ring__track" cx="32" cy="32" r="27" />
+                <circle class="timer-ring__fill" id="timer-fill" cx="32" cy="32" r="27" />
+                <text class="timer-ring__text" id="timer-text" x="32" y="32">30</text>
+              </svg>
+            </div>
+
+            <div class="progress">
+              <div class="progress__fill" id="progress-bar" style="width: 20%;"></div>
+            </div>
+
+            <div class="card card--elevated anim-fade">
+              <h3 id="question-text" style="font-size: 1.125rem; line-height: 1.5;">
+                Quelle balise HTML est utilisée pour les titres de niveau 1 ?
+              </h3>
+            </div>
+
+            <div class="answer-grid" id="answers-grid">
+              <button class="answer-btn">&lt;h1&gt;</button>
+              <button class="answer-btn">&lt;title&gt;</button>
+              <button class="answer-btn">&lt;header&gt;</button>
+              <button class="answer-btn">&lt;heading&gt;</button>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ==========================================
+             ÉCRAN 4A — FEEDBACK : BONNE RÉPONSE
+             ========================================== -->
+        <section id="screen-feedback-correct" class="screen" style="display: none;">
+          <div class="stack stack--md text-center" style="padding-top: 2rem;">
+            <div style="font-size: 4rem;" class="anim-pop">✅</div>
+            <div>
+              <h2 style="color: var(--color-success);">Bonne réponse !</h2>
+              <p class="mt-1">La balise correcte est bien <strong>&lt;h1&gt;</strong>.</p>
+            </div>
+            <div class="card" style="background: var(--color-success-light); border-color: #BBF7D0;">
+              <div class="between">
+                <span class="text-muted" style="font-size: 0.875rem;">Points gagnés</span>
+                <span class="fw-700 text-success" style="font-size: 1.25rem;">+100 pts</span>
+              </div>
+              <div class="divider"></div>
+              <div class="between">
+                <span class="text-muted" style="font-size: 0.875rem;">Score total</span>
+                <span id="score-display" class="fw-700 text-success" style="font-size: 1.25rem;">100 pts</span>
+              </div>
+            </div>
+            <p class="text-muted" style="font-size: 0.875rem;">
+              Prochaine question dans <span id="next-countdown">3</span>s...
+            </p>
+          </div>
+        </section>
+
+        <!-- ==========================================
+             ÉCRAN 4B — FEEDBACK : MAUVAISE RÉPONSE
+             ========================================== -->
+        <section id="screen-feedback-wrong" class="screen" style="display: none;">
+          <div class="stack stack--md text-center" style="padding-top: 2rem;">
+            <div style="font-size: 4rem;" class="anim-pop">❌</div>
+            <div>
+              <h2 style="color: var(--color-danger);">Mauvaise réponse</h2>
+              <p class="mt-1">La bonne réponse était <strong>&lt;h1&gt;</strong>.</p>
+            </div>
+            <div class="card" style="background: var(--color-danger-light); border-color: #FECACA;">
+              <div class="between">
+                <span class="text-muted" style="font-size: 0.875rem;">Points gagnés</span>
+                <span class="fw-700 text-danger" style="font-size: 1.25rem;">+0 pts</span>
+              </div>
+              <div class="divider"></div>
+              <div class="between">
+                <span class="text-muted" style="font-size: 0.875rem;">Score total</span>
+                <span class="fw-700" style="font-size: 1.25rem; color: var(--color-text-primary);">100 pts</span>
+              </div>
+            </div>
+            <p class="text-muted" style="font-size: 0.875rem;">
+              Prochaine question dans <span>3</span>s...
+            </p>
+          </div>
+        </section>
+
+        <!-- ==========================================
+             ÉCRAN 4C — TIMER EXPIRÉ (pas de réponse)
+             ========================================== -->
+        <section id="screen-timeout" class="screen" style="display: none;">
+          <div class="stack stack--md text-center" style="padding-top: 2rem;">
+            <div style="font-size: 4rem;" class="anim-pop">⏰</div>
+            <div>
+              <h2 style="color: var(--color-warning);">Temps écoulé !</h2>
+              <p class="mt-1">Tu n'as pas répondu à temps.</p>
+            </div>
+            <div class="card" style="background: #FFFBEB; border-color: #FDE68A;">
+              <div class="between">
+                <span class="text-muted" style="font-size: 0.875rem;">Points gagnés</span>
+                <span class="fw-700" style="font-size: 1.25rem; color: var(--color-warning);">+0 pts</span>
+              </div>
+              <div class="divider"></div>
+              <div class="between">
+                <span class="text-muted" style="font-size: 0.875rem;">Score total</span>
+                <span class="fw-700" style="font-size: 1.25rem; color: var(--color-text-primary);">100 pts</span>
+              </div>
+            </div>
+            <div class="card card--flat" style="background: var(--color-bg);">
+              <p style="font-size: 0.875rem;">La bonne réponse était : <strong>&lt;h1&gt;</strong></p>
+            </div>
+            <p class="text-muted" style="font-size: 0.875rem;">
+              Prochaine question dans <span>3</span>s...
+            </p>
+          </div>
+        </section>
+
+        <!-- ==========================================
+             ÉCRAN 5 — SCORE INTERMÉDIAIRE (entre questions)
+             ========================================== -->
+        <section id="screen-mid-score" class="screen" style="display: none;">
+          <div class="stack stack--lg">
+            <div class="text-center">
+              <p style="font-size: 0.8125rem; color: var(--color-text-muted); margin-bottom: 0.25rem;">Après la question 2 / 5</p>
+              <h2>Classement en direct</h2>
+            </div>
+
+            <!-- Ta position mise en avant -->
+            <div class="card" style="background: var(--color-primary-light); border-color: #BFDBFE;">
+              <div class="between">
+                <div>
+                  <p style="font-size: 0.8125rem; color: var(--color-primary);">Ta position</p>
+                  <p class="fw-700" style="font-size: 1.75rem; color: var(--color-primary); line-height: 1;">3ème</p>
+                </div>
+                <div style="text-align: right;">
+                  <p style="font-size: 0.8125rem; color: var(--color-text-muted);">Ton score</p>
+                  <p class="fw-700" style="font-size: 1.5rem; color: var(--color-primary);">200 pts</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Top 3 -->
+            <div class="stack stack--sm">
+              <div class="lb-row lb-row--gold">
+                <span class="lb-rank">🥇</span>
+                <span class="avatar avatar--sm">A</span>
+                <span class="lb-name">Alice</span>
+                <span class="lb-score">300 pts</span>
+              </div>
+              <div class="lb-row lb-row--silver">
+                <span class="lb-rank">🥈</span>
+                <span class="avatar avatar--sm" style="background: #F3F4F6; color: #6B7280;">B</span>
+                <span class="lb-name">Bob</span>
+                <span class="lb-score">250 pts</span>
+              </div>
+              <div class="lb-row" style="border-color: var(--color-primary); background: var(--color-primary-light);">
+                <span class="lb-rank" style="color: var(--color-primary);">3</span>
+                <span class="avatar avatar--sm" style="background: var(--color-primary-light); color: var(--color-primary);">T</span>
+                <span class="lb-name fw-500" style="color: var(--color-primary);">Toi</span>
+                <span class="lb-score">200 pts</span>
+              </div>
+              <div class="lb-row">
+                <span class="lb-rank">4</span>
+                <span class="avatar avatar--sm" style="background: #FFF7ED; color: #C2410C;">C</span>
+                <span class="lb-name">Carlos</span>
+                <span class="lb-score">150 pts</span>
+              </div>
+            </div>
+
+            <p class="text-muted text-center" style="font-size: 0.875rem;">
+              Question suivante dans <span>5</span>s...
+            </p>
+          </div>
+        </section>
+
+        <!-- ==========================================
+             ÉCRAN 6 — CLASSEMENT FINAL
+             ========================================== -->
+        <section id="screen-final" class="screen" style="display: none;">
+          <div class="stack stack--lg">
+            <div class="text-center">
+              <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🏆</div>
+              <h2>Résultats finaux</h2>
+              <p>Quiz terminé ! Voici le classement.</p>
+            </div>
+
+            <div class="stack stack--sm" id="leaderboard">
+              <div class="lb-row lb-row--gold">
+                <span class="lb-rank">🥇</span>
+                <span class="avatar avatar--sm">A</span>
+                <span class="lb-name">Alice</span>
+                <span class="lb-score">420 pts</span>
+              </div>
+              <div class="lb-row lb-row--silver">
+                <span class="lb-rank">🥈</span>
+                <span class="avatar avatar--sm" style="background: #F3F4F6; color: #6B7280;">B</span>
+                <span class="lb-name">Bob</span>
+                <span class="lb-score">380 pts</span>
+              </div>
+              <div class="lb-row lb-row--bronze">
+                <span class="lb-rank">🥉</span>
+                <span class="avatar avatar--sm" style="background: #FFF7ED; color: #C2410C;">C</span>
+                <span class="lb-name">Carlos</span>
+                <span class="lb-score">310 pts</span>
+              </div>
+              <div class="lb-row" style="border-color: var(--color-primary); background: var(--color-primary-light);">
+                <span class="lb-rank" style="color: var(--color-primary);">4</span>
+                <span class="avatar avatar--sm" style="background: var(--color-primary-light); color: var(--color-primary);">T</span>
+                <span class="lb-name fw-500" style="color: var(--color-primary);">Toi</span>
+                <span class="lb-score">270 pts</span>
+              </div>
+            </div>
+
+            <button class="btn btn--secondary btn--full">Jouer à nouveau</button>
+          </div>
+        </section>
+
+      </div><!-- /container -->
+    </main>
+  </div>
+
+  <!--
+    PHASE 1 — JS à écrire :
+    - btn-join           → valide pseudo (min 3 chars), affiche screen-waiting
+    - screen-question    → affiche réponses, gère clic, colorie correct/wrong
+    - timer              → setInterval, met à jour stroke-dashoffset + texte
+    - feedback           → affiche 4A/4B/4C selon résultat
+    - mid-score          → affiché après chaque question (sauf la dernière)
+    - screen-final       → affiché après la dernière question
+    Fonction utilitaire : showScreen(id) → cache tout, affiche id
+  -->
+</body>
+</html>
