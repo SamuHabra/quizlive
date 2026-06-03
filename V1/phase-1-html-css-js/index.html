@@ -47,7 +47,7 @@
               <span class="form-hint" id="pseudo-hint">Entre 3 et 20 caractères</span>
             </div>
 
-            <button class="btn btn--primary btn--full btn--lg" id="btn-join">
+            <button class="btn btn--primary btn--full btn--lg" id="btn-join" onclick="formValidation()">
               Rejoindre le quiz →
             </button>
           </div>
@@ -84,7 +84,7 @@
         <!-- ==========================================
              ÉCRAN 3 — QUESTION EN COURS
              ========================================== -->
-        <section id="screen-question" class="screen" style="display: none;">
+        <section id="screen-question" class="screen" style="display: block;">
           <div class="stack stack--md">
 
             <div class="between">
@@ -314,5 +314,52 @@
     - screen-final       → affiché après la dernière question
     Fonction utilitaire : showScreen(id) → cache tout, affiche id
   -->
+      <script defer>
+
+
+
+        function showScreen(id){
+         document.querySelectorAll(".screen").forEach((el)=>{
+            el.style.display = "none";
+          });
+          document.getElementById(id).style.display = "block";
+        }
+
+
+        function formValidation(){
+          if(document.querySelector('.input').value.length < 3)
+             document.getElementById("pseudo-error").style.display = "block";
+          else
+            showScreen("screen-waiting");
+            render();
+        }
+        
+
+
+        function render(){
+          document.getElementById("display-pseudo").textContent = document.getElementById("pseudo-input").value;
+        }
+
+
+          let timerInterval;
+
+          function startTimer(seconds) {
+            const circle = document.getElementById('timer-fill');
+            const val    = document.getElementById('timer-text');
+            const circ   = 169;
+            let t = seconds;
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+              t--;
+              val.textContent = t;
+              circle.style.strokeDashoffset = circ - (circ * t / seconds);
+              if (t <= 0) {
+                clearInterval(timerInterval);
+              }
+            }, 1000);
+          }
+        // startTimer(30);
+  
+      </script>
 </body>
 </html>
